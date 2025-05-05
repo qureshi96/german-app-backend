@@ -1,11 +1,32 @@
+require('dotenv').config();
 const express = require('express');
+const connectDB = require('./config/db');
+const verbsRouter = require('./routes/verbs');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Node.js application!' });
-});
+// Middleware
+app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// Connect to MongoDB
+connectDB()
+  .then(() => {
+    // Routes
+    app.use('/api/verbs', verbsRouter);
+
+    app.get('/', (req, res) => {
+      res.json({ 
+        message: 'Welcome to the German Verbs API!',
+        status: 'Database connected'
+      });
+    });
+
+    // Start server after DB connection
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch(error => {
+    console.error('Failed to connect to the database:', error);
+    process.exit(1);
+  });
