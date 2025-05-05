@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
 const verbsRouter = require('./routes/verbs');
+const nounsRouter = require('./routes/nouns');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -13,15 +15,14 @@ connectDB()
   .then(() => {
     // Routes
     app.use('/api/verbs', verbsRouter);
+    app.use('/api/nouns', nounsRouter);
 
     app.get('/', (req, res) => {
       res.json({ 
-        message: 'Welcome to the German Verbs API!',
-        status: 'Database connected'
+        message: 'Welcome to the German Language API!'
       });
     });
 
-    // Start server after DB connection
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
