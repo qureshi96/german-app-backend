@@ -3,6 +3,8 @@ const express = require('express');
 const connectDB = require('./config/db');
 const verbsRouter = require('./routes/verbs');
 const nounsRouter = require('./routes/nouns');
+const adjectivesRouter = require('./routes/adjectives');
+const adverbsRouter = require('./routes/adverbs');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +18,8 @@ connectDB()
     // Routes
     app.use('/api/verbs', verbsRouter);
     app.use('/api/nouns', nounsRouter);
+    app.use('/api/adjectives', adjectivesRouter);
+    app.use('/api/adverbs', adverbsRouter);
 
     app.get('/', (req, res) => {
       res.json({ 

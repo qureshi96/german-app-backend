@@ -5,7 +5,7 @@ const Noun = require('../models/Noun');
 // Get all nouns
 router.get('/', async (req, res) => {
   try {
-    const nouns = await Noun.find().lean();
+    const nouns = await Noun.find().select('-url').lean();
     console.log('Total nouns found:', nouns.length);
     
     if (nouns.length === 0) {
@@ -24,13 +24,30 @@ router.get('/', async (req, res) => {
     });
   }
 });
-
+// Get list of noun strings only
+router.get('/list', async (req, res) => {
+    try {
+      const nouns = await Noun.find().select('noun -_id').lean();
+      const nounList = nouns.map(n => n.noun);
+      
+      if (nounList.length === 0) {
+        return res.status(404).json({ 
+          message: 'No nouns found in database'
+        });
+      }
+      
+      res.json(nounList);
+    } catch (error) {
+      console.error('Database query error:', error);
+      res.status(500).json({ message: error.message });
+    }
+  });
 // Get a single noun
 router.get('/:noun', async (req, res) => {
   try {
     console.log('Searching for noun:', req.params.noun);
     
-    const noun = await Noun.findOne({ noun: req.params.noun }).lean();
+    const noun = await Noun.findOne({ noun: req.params.noun }).select('-url').lean();
     console.log('Database query result:', noun);
     
     if (noun) {
@@ -50,5 +67,7 @@ router.get('/:noun', async (req, res) => {
     });
   }
 });
+
+
 
 module.exports = router;

@@ -5,7 +5,7 @@ const Verb = require('../models/Verb');
 // Get all verbs
 router.get('/', async (req, res) => {
   try {
-    const verbs = await Verb.find().lean();
+    const verbs = await Verb.find().select('-url').lean();
     console.log('Total verbs found:', verbs.length);
     
     if (verbs.length === 0) {
@@ -25,12 +25,31 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get list of verb strings only
+router.get('/list', async (req, res) => {
+  try {
+    const verbs = await Verb.find().select('verb -_id').lean();
+    const verbList = verbs.map(v => v.verb);
+    
+    if (verbList.length === 0) {
+      return res.status(404).json({ 
+        message: 'No verbs found in database'
+      });
+    }
+    
+    res.json(verbList);
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Get a single verb
 router.get('/:verb', async (req, res) => {
   try {
     console.log('Searching for verb:', req.params.verb);
     
-    const verb = await Verb.findOne({ verb: req.params.verb }).lean();
+    const verb = await Verb.findOne({ verb: req.params.verb }).select('-url').lean();
     console.log('Database query result:', verb);
     
     if (verb) {

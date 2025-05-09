@@ -18,9 +18,13 @@ const nounSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  url: {
+  example_de: {
     type: String,
-    required: true
+    required: false
+  },
+  example_en: {
+    type: String,
+    required: false
   }
 }, {
   collection: 'nouns'

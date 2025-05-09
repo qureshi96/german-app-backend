@@ -23,17 +23,22 @@ const verbSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  url: {
-    type: String,
-    required: true
-  },
   conjugations: {
-    type: Object,
-    required: true
+    present: conjugationSchema,
+    preteritum: conjugationSchema,
+    perfect: conjugationSchema
   },
   level: {
     type: String,
     required: true
+  },
+  example_de: {
+    type: String,
+    required: false
+  },
+  example_en: {
+    type: String,
+    required: false
   }
 }, {
   _id: false,
