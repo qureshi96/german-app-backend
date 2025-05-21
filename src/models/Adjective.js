@@ -9,6 +9,14 @@ const adjectiveSchema = new mongoose.Schema({
   meaning: {
     type: String,
     required: true
+  },
+  example_de: {
+    type: String,
+    required: false
+  },
+  example_en: {
+    type: String,
+    required: false
   }
 }, {
   collection: 'adjectives'
