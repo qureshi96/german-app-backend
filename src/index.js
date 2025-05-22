@@ -10,6 +10,8 @@ const grammarPostsRouter = require('./routes/grammarPosts');
 const learntWordsRouter = require('./routes/learntWords');
 const vocabTestsRouter = require('./routes/vocabTests');
 const readingPostsRouter = require('./routes/readingPosts');
+const everydayGermanPostsRouter = require('./routes/everydayGermanPosts');
+const donePostsRouter = require('./routes/donePosts');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -30,6 +32,8 @@ connectDB()
     app.use('/api/learnt-words', learntWordsRouter);
     app.use('/api/vocab-tests', vocabTestsRouter);
     app.use('/api/reading', readingPostsRouter);
+    app.use('/api/everydaygermanpost', everydayGermanPostsRouter);
+    app.use('/api/doneposts', donePostsRouter);
     app.get('/', (req, res) => {
       res.json({ 
         message: 'Welcome to the German Language API!'
