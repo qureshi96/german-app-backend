@@ -12,6 +12,9 @@ const vocabTestsRouter = require('./routes/vocabTests');
 const readingPostsRouter = require('./routes/readingPosts');
 const everydayGermanPostsRouter = require('./routes/everydayGermanPosts');
 const donePostsRouter = require('./routes/donePosts');
+const grammarTestsRouter = require('./routes/grammarTests');
+const everydayTestsRouter = require('./routes/everydayTests');
+const readingTestsRouter = require('./routes/readingTests');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,6 +37,9 @@ connectDB()
     app.use('/api/reading', readingPostsRouter);
     app.use('/api/everydaygermanpost', everydayGermanPostsRouter);
     app.use('/api/doneposts', donePostsRouter);
+    app.use('/api/grammartests', grammarTestsRouter);
+    app.use('/api/everydaytests', everydayTestsRouter);
+    app.use('/api/readingtest', readingTestsRouter);
     app.get('/', (req, res) => {
       res.json({ 
         message: 'Welcome to the German Language API!'
